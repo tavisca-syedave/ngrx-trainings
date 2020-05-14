@@ -1,4 +1,5 @@
 import { AbstractControl } from '@angular/forms';
+import { Logic } from 'src/app/models/app.logic';
 
 // custom validator class must contain static metyhod
 export class MyCustomValidator {
@@ -15,5 +16,20 @@ export class MyCustomValidator {
      } else {
        return {noteven:true}
      }
+  }
+  static checkUniqueProduct(ctrl: AbstractControl) : any {
+    let logic: Logic;
+    logic= new Logic();
+    const val: number  = parseInt(ctrl.value);
+    const prds= logic.getProducts();
+
+    let checkProductExist= prds.some( a=> {
+      return a.ProductId == val;
+    });
+    if (checkProductExist ==true) {
+       return {isProductExist:true};
+    } else {
+      return null;
+    }
   }
 }
